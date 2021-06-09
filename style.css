@@ -15,5 +15,6 @@
   grid-template-rows: 100px 100px 100px 100px 100px;
 }
 .box {
-  background-color: aqua;
+  background-color: whitesmoke;
+  cursor: pointer;
 }
