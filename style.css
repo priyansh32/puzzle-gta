@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  background-color: rgb(38, 45, 51);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.game-main {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px 100px 100px;
+  column-gap: 10px;
+  row-gap: 10px;
+  width: 33.75rem;
+  height: 33.75rem;
+}
+.box {
+  background-color: aqua;
+}
