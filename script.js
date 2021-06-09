@@ -1,7 +1,7 @@
-const boxes = document.querySelectorAll('.box')
+const tiles = document.querySelectorAll('.box')
 var color = ["red", "green", "orange", "yellow", "blue", "white"];
 
-let emptybox = boxes[24];
+let emptytile = tiles[24];
 
 const images = [
     './puzzle/1.png',
@@ -30,6 +30,7 @@ const images = [
     './puzzle/24.png'
 ]
 
+//this array stores list of neighbours for each tile
 const neighbourslist = [
     [2, 6],//1
     [1, 3, 7],//2
@@ -59,17 +60,31 @@ const neighbourslist = [
 ]
 
 for (let i = 0; i < 24; i++) {
-    boxes[i].style.backgroundImage = `url(${images.splice(Math.floor(Math.random() * images.length), 1)[0]})`
+    tiles[i].style.backgroundImage = `url(${images[i]})`
+}
+emptytile.style.backgroundImage = 'url("./puzzle/25.png")'
+
+function shuffle() {
+    //even no. of inversions i.e 40
+    for (let i = 0; i < 40; i++) {
+        //one and two will bw two random tiles that will be inverted
+        let one = Math.floor(Math.random() * images.length);
+        let two = Math.floor(Math.random() * images.length);
+
+        //inverting the background images (ES6 syntax)
+        [tiles[one].style.backgroundImage, tiles[two].style.backgroundImage] = [tiles[two].style.backgroundImage, tiles[one].style.backgroundImage]
+    }
 }
 
-emptybox.style.backgroundImage = 'url("./puzzle/25.png")'
+setTimeout(shuffle, 5000)
 
-boxes.forEach((box, i) => {
-    box.addEventListener('click', () => {
-        if (neighbourslist[parseInt(emptybox.classList[1]) - 1].includes(parseInt(box.classList[1]))) {
-            emptybox.style.backgroundImage = box.style.backgroundImage;
-            box.style.backgroundImage = 'url("./puzzle/25.png")'
-            emptybox = box;
+//adding event listeners to tiles
+tiles.forEach((tile) => {
+    tile.addEventListener('click', () => {
+        if (neighbourslist[parseInt(emptytile.classList[1]) - 1].includes(parseInt(tile.classList[1]))) {
+            //inverting backgrounds
+            [tile.style.backgroundImage, emptytile.style.backgroundImage] = [emptytile.style.backgroundImage, tile.style.backgroundImage]
+            emptytile = tile;
         }
     })
 })

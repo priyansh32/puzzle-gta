@@ -6,6 +6,7 @@
   background-color: rgb(38, 45, 51);
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -17,4 +18,14 @@
 .box {
   background-color: whitesmoke;
   cursor: pointer;
+}
+p {
+  color: #fff;
+  animation: fade 1s forwards;
+  animation-delay: 5s;
+}
+@keyframes fade {
+  100% {
+    opacity: 0;
+  }
 }
