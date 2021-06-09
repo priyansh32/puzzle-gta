@@ -11,9 +11,27 @@
   justify-content: center;
 }
 .game-main {
+  position: relative;
   display: grid;
   grid-template-columns: 100px 100px 100px 100px 100px;
   grid-template-rows: 100px 100px 100px 100px 100px;
+}
+.winner {
+  visibility: hidden;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 5rem;
+  background-color: black;
+}
+.visible {
+  visibility: visible;
+}
+.disabled {
+  pointer-events: none;
 }
 .box {
   background-color: whitesmoke;
