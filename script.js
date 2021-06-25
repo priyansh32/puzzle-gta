@@ -108,8 +108,17 @@ function win() {
     youwon.classList.add('visible')
 }
 
+const timer = document.querySelector('.timer')
+let i = 8
+let timerInterval = setInterval(() => {
+    i--;
+    timer.innerHTML = i;
+    if (i == 0) {
+        clearInterval(timerInterval)
+    }
+}, 1000);
 //shuffling the tiles
-setTimeout(shuffle, 5000)
+setTimeout(shuffle, 8000)
 
 //adding event listeners to tiles
-setTimeout(clickEvents, 5000)
+setTimeout(clickEvents, 8000)
