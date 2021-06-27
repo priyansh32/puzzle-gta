@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 .container {
   background-color: rgb(38, 45, 51);
@@ -13,8 +14,8 @@
 .game-main {
   position: relative;
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px 100px 100px;
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
 }
 .winner {
   visibility: hidden;
@@ -36,6 +37,7 @@
 .box {
   background-color: whitesmoke;
   cursor: pointer;
+  background-size: 100%;
 }
 p {
   color: #fff;
@@ -45,5 +47,13 @@ p {
 @keyframes fade {
   100% {
     opacity: 0;
+  }
+}
+@media (max-width: 540px) {
+  .game-main {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 70px);
+    grid-template-rows: repeat(5, 70px);
   }
 }
