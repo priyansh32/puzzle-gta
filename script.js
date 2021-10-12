@@ -1,33 +1,33 @@
 const tiles = document.querySelectorAll('.box');
-const youwon = document.querySelector('.winner')
+const youWon = document.querySelector('.winner')
 let emptytile = tiles[24];
 
 const images = [
-    'url("./puzzle/1.png")',
-    'url("./puzzle/2.png")',
-    'url("./puzzle/3.png")',
-    'url("./puzzle/4.png")',
-    'url("./puzzle/5.png")',
-    'url("./puzzle/6.png")',
-    'url("./puzzle/7.png")',
-    'url("./puzzle/8.png")',
-    'url("./puzzle/9.png")',
-    'url("./puzzle/10.png")',
-    'url("./puzzle/11.png")',
-    'url("./puzzle/12.png")',
-    'url("./puzzle/13.png")',
-    'url("./puzzle/14.png")',
-    'url("./puzzle/15.png")',
-    'url("./puzzle/16.png")',
-    'url("./puzzle/17.png")',
-    'url("./puzzle/18.png")',
-    'url("./puzzle/19.png")',
-    'url("./puzzle/20.png")',
-    'url("./puzzle/21.png")',
-    'url("./puzzle/22.png")',
-    'url("./puzzle/23.png")',
-    'url("./puzzle/24.png")',
-    'url("./puzzle/25.png")'
+    '1_f7sadu.png',
+    '2_nburbx.png',
+    '3_sgnv8g.png',
+    '4_xajtk2.png',
+    '5_oynbzz.png',
+    '6_mo75dr.png',
+    '7_bhudje.png',
+    '8_qskaxk.png',
+    '9_ovld9h.png',
+    '10_dlyrzj.png',
+    '11_isvewz.png',
+    '12_qlr3yf.png',
+    '13_xyrser.png',
+    '14_sipeha.png',
+    '15_qo2p9f.png',
+    '16_adzel1.png',
+    '17_omjh3d.png',
+    '18_suonme.png',
+    '19_cojhmj.png',
+    '20_g0tw6i.png',
+    '21_tpvxju.png',
+    '22_q7fieh.png',
+    '23_bsyfyp.png',
+    '24_y1zunx.png',
+    '25_dqqw9k.png'
 ];
 
 //this array stores list of neighbours for each tile
@@ -61,24 +61,22 @@ const neighbourslist = [
 
 let live = images.slice();
 for (let i = 0; i < 24; i++) {
-    tiles[i].style.backgroundImage = `${images[i]}`;
+    tiles[i].style.backgroundImage = `url('https://res.cloudinary.com/dvqyo2zki/image/upload/v1634050037/puzzles/${images[i]}')`;
 }
-emptytile.style.backgroundImage = 'url("./puzzle/25.png")';
+emptytile.style.backgroundImage = `url('https://res.cloudinary.com/dvqyo2zki/image/upload/v1634050037/puzzles/${images[24]}')`;
 
 //this function shuffles the tiles
-
 function shuffle() {
     //even no. of inversions i.e 40
     for (let i = 0; i < 40; i++) {
         //one and two will bw two random tiles that will be inverted
         let one = Math.floor(Math.random() * 24);
         let two = Math.floor(Math.random() * 24);
-        console.log(one, ' ', two);
-        if (one != two) {
+        if (one !== two) {
             //inverting the background images(ES6 syntax)
             [tiles[one].style.backgroundImage, tiles[two].style.backgroundImage] = [tiles[two].style.backgroundImage, tiles[one].style.backgroundImage];
-            live[one] = tiles[one].style.backgroundImage;
-            live[two] = tiles[two].style.backgroundImage;
+            live[one] = tiles[one].style.backgroundImage.slice(75, -2);
+            live[two] = tiles[two].style.backgroundImage.slice(75, -2);
         }
         else
             i--;
@@ -91,10 +89,16 @@ function clickEvents() {
         tile.addEventListener('click', () => {
             if (neighbourslist[parseInt(emptytile.classList[1]) - 1].includes(parseInt(tile.classList[1]))) {
                 //inverting backgrounds
-                live[parseInt(emptytile.classList[1]) - 1] = tile.style.backgroundImage;
-                [tile.style.backgroundImage, emptytile.style.backgroundImage] = [emptytile.style.backgroundImage, tile.style.backgroundImage];
+                live[parseInt(emptytile.classList[1]) - 1] = tile.style.backgroundImage.slice(75, -2);
+                console.log(live[parseInt(emptytile.classList[1]) - 1])
+                // [tile.style.backgroundImage, emptytile.style.backgroundImage] = [emptytile.style.backgroundImage, tile.style.backgroundImage];
+                //swap background images with temp variable
+                let temp = tile.style.backgroundImage;
+                tile.style.backgroundImage = emptytile.style.backgroundImage;
+                emptytile.style.backgroundImage = temp;
+
                 emptytile = tile;
-                live[i] = tile.style.backgroundImage;
+                live[i] = tile.style.backgroundImage.slice(75, -2);
             }
             if (JSON.stringify(images) == JSON.stringify(live)) {
                 win()
@@ -105,7 +109,7 @@ function clickEvents() {
 
 function win() {
     tiles[0].parentElement.classList.add('disabled')
-    youwon.classList.add('visible')
+    youWon.classList.add('visible')
 }
 
 const timer = document.querySelector('.timer')
