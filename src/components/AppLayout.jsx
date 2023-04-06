@@ -24,6 +24,13 @@ const navigation = [
     { name: "About", href: "/about", icon: InformationCircleIcon},
   ];
 
+const user = {
+    name: "Emily Selman",
+    email: "emily.selman@example.com",
+    imageUrl:
+      "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  };
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -86,13 +93,15 @@ const AppLayout = ({children}) => {
                 </Transition.Child>
                 <div className='flex-1 h-0 pt-5 pb-4 overflow-y-auto'>
                   <div className='flex-shrink-0 flex items-center px-4'>
+                    <Link href='/'>
                     <Image
                       className='h-8 w-auto'
                       src='/puzzled-logo-light.svg'
                       alt='Workflow'
                       width={144}
                       height={32}
-                    />
+                      />
+                    </Link>
                   </div>
                   <nav aria-label='Sidebar' className='mt-5'>
                     <div className='px-2 space-y-1'>
@@ -128,7 +137,7 @@ const AppLayout = ({children}) => {
                       <div>
                         <Image
                           className='inline-block h-10 w-10 rounded-full'
-                          src='https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80'
+                          src={user.imageUrl}
                           alt=''
                           width={40}
                           height={40}
@@ -136,7 +145,7 @@ const AppLayout = ({children}) => {
                       </div>
                       <div className='ml-3'>
                         <p className='text-base font-medium text-gray-700 group-hover:text-gray-900'>
-                          Whitney Francis
+                        {user.name}
                         </p>
                         <p className='text-sm font-medium text-gray-500 group-hover:text-gray-700'>
                           View profile
@@ -160,6 +169,7 @@ const AppLayout = ({children}) => {
             <div className='flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100'>
               <div className='flex-1 flex flex-col pt-5 pb-4 overflow-y-auto'>
                 <div className='flex items-center flex-shrink-0 px-4'>
+                <Link href='/'>
                   <Image
                     className='h-8 w-auto'
                     src='/puzzled-logo-light.svg'
@@ -167,6 +177,7 @@ const AppLayout = ({children}) => {
                     width={144}
                     height={32}
                   />
+                  </Link>
                 </div>
                 <nav className='mt-5 flex-1' aria-label='Sidebar'>
                   <div className='px-2 space-y-1'>
@@ -202,7 +213,7 @@ const AppLayout = ({children}) => {
                     <div>
                       <Image
                         className='inline-block h-9 w-9 rounded-full'
-                        src='https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80'
+                        src={user.imageUrl}
                         width={36}
                         height={36}
                         alt=''
@@ -210,7 +221,7 @@ const AppLayout = ({children}) => {
                     </div>
                     <div className='ml-3'>
                       <p className='text-sm font-medium text-gray-700 group-hover:text-gray-900'>
-                        Whitney Francis
+                        {user.name}
                       </p>
                       <p className='text-xs font-medium text-gray-500 group-hover:text-gray-700'>
                         View profile
