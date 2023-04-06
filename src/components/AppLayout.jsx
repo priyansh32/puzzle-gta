@@ -12,24 +12,27 @@ import {
 } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
+import Link from "next/link";
+
+import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: "Home", href: "#", icon: HomeIcon, current: true },
-  { name: "Daily Puzzle", href: "#", icon: CalendarIcon, current: false },
-  { name: "Puzzles Library", href: "#", icon: PuzzlePieceIcon, current: false },
-  { name: "Create Puzzle", href: "#", icon: PlusCircleIcon, current: false },
-  { name: "About", href: "#", icon: InformationCircleIcon, current: false },
-];
+    { name: "Home", href: "/app", icon: HomeIcon},
+    { name: "Daily Puzzle", href: "/app/daily-puzzle", icon: CalendarIcon},
+    { name: "Puzzles Library", href: "/app/puzzle-library", icon: PuzzlePieceIcon},
+    { name: "Create Puzzle", href: "/app/create-puzzle", icon: PlusCircleIcon},
+    { name: "About", href: "/about", icon: InformationCircleIcon},
+  ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const SidebarLayout = ({children}) => {
+const AppLayout = ({children}) => {
+  const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <>
       <div className='h-full flex'>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -94,19 +97,19 @@ const SidebarLayout = ({children}) => {
                   <nav aria-label='Sidebar' className='mt-5'>
                     <div className='px-2 space-y-1'>
                       {navigation.map((item) => (
-                        <a
+                        <Link
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            item.current
-                              ? "bg-purple-100 text-gray-900"
+                            item.href === pathname
+                                ? "bg-purple-100 text-gray-900"
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
                             className={classNames(
-                              item.current
+                              item.href === pathname
                                 ? "text-purple-700"
                                 : "text-gray-400 group-hover:text-gray-500",
                               "mr-4 h-6 w-6"
@@ -114,13 +117,13 @@ const SidebarLayout = ({children}) => {
                             aria-hidden='true'
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </nav>
                 </div>
                 <div className='flex-shrink-0 flex border-t border-gray-200 p-4'>
-                  <a href='#' className='flex-shrink-0 group block'>
+                  <Link href='#' className='flex-shrink-0 group block'>
                     <div className='flex items-center'>
                       <div>
                         <Image
@@ -140,7 +143,7 @@ const SidebarLayout = ({children}) => {
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </Transition.Child>
@@ -168,11 +171,11 @@ const SidebarLayout = ({children}) => {
                 <nav className='mt-5 flex-1' aria-label='Sidebar'>
                   <div className='px-2 space-y-1'>
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          item.href === pathname
                             ? "bg-purple-100 text-gray-900"
                             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
                           "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
@@ -180,21 +183,21 @@ const SidebarLayout = ({children}) => {
                       >
                         <item.icon
                           className={classNames(
-                            item.current
-                              ? "text-purple-700"
+                            item.href === pathname
+                                ? "text-purple-700"
                               : "text-gray-400 group-hover:text-gray-500",
                             "mr-3 h-6 w-6"
                           )}
                           aria-hidden='true'
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </nav>
               </div>
               <div className='flex-shrink-0 flex border-t border-gray-200 p-4'>
-                <a href='#' className='flex-shrink-0 w-full group block'>
+                <Link href='#' className='flex-shrink-0 w-full group block'>
                   <div className='flex items-center'>
                     <div>
                       <Image
@@ -214,7 +217,7 @@ const SidebarLayout = ({children}) => {
                       </p>
                     </div>
                   </div>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -256,8 +259,7 @@ const SidebarLayout = ({children}) => {
           </div>
         </div>
       </div>
-    </>
   );
 }
 
-export default SidebarLayout;
+export default AppLayout;
