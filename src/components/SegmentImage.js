@@ -4,10 +4,9 @@ import Image from "next/image";
 import Cropper from "react-easy-crop";
 import JSZip from "jszip";
 import saveAs from "file-saver";
-// import { getCroppedImg } from './cropImage';
+import Compress from "compress.js";
+
 function getCroppedImg(imageSrc, pixelCrop) {
-  // Image is not a constructor
-  //   const image = new Image();
   const image = document.createElement("img");
   image.src = imageSrc;
 
@@ -44,8 +43,24 @@ export default function ImageCropper() {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  const handleFileChange = (e) => {
-    setImage(URL.createObjectURL(new Blob([e.target.files[0]])));
+  const handleFileChange = async (e) => {
+    const [file] = e.target.files;
+    console.log(URL.createObjectURL(new Blob([file])));
+    const cmp = new Compress();
+    const resizedFile = await cmp.compress([file], {
+      size: 1, // the max size in MB, defaults to 2MB
+      quality: 0.75, // the quality of the image, max is 1,
+      maxWidth: 1080, // the max width of the output image, defaults to 1920px
+      maxHeight: 1080, // the max height of the output image, defaults to 1920px
+      resize: true, // defaults to true, set false if you do not want to resize the image width and height
+    });
+
+    const compressedFile = resizedFile[0];
+    const base64str = compressedFile.data;
+    const imgExt = compressedFile.ext;
+    const newFile = Compress.convertBase64ToFile(base64str, imgExt);
+
+    setImage(URL.createObjectURL(new Blob([newFile])));
   };
 
   const handleDownload = () => {
@@ -60,8 +75,8 @@ export default function ImageCropper() {
     for (let i = 0; i < 5; i++) {
       for (let j = 0; j < 5; j++) {
         const canvas = document.createElement("canvas");
-        canvas.width = croppedImage.width / 5;
-        canvas.height = croppedImage.height / 5;
+        canvas.width = 100;
+        canvas.height = 100;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(
           croppedImage,
@@ -71,8 +86,8 @@ export default function ImageCropper() {
           croppedImage.height / 5,
           0,
           0,
-          croppedImage.width / 5,
-          croppedImage.height / 5
+          100,
+          100
         );
         dataURLs.push(canvas.toDataURL());
       }
@@ -85,6 +100,7 @@ export default function ImageCropper() {
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "images.zip");
     });
+    setImage(null);
   };
 
   return (
