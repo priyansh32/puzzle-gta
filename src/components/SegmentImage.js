@@ -1,16 +1,16 @@
 "use client";
 import Image from "next/image";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
 import Cropper from "react-easy-crop";
-import JSZip from "jszip";
-import saveAs from "file-saver";
+// import JSZip from "jszip";
+// import saveAs from "file-saver";
 import Compress from "compress.js";
 
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import Grid from "./PuzzleGrid";
 
 function getCroppedImg(imageSrc, pixelCrop) {
@@ -47,6 +47,10 @@ export default function ImageCropper() {
   const [aspectRatio, setAspectRatio] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("imageGrid", JSON.stringify(Images));
+  }, [Images]);
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -112,8 +116,6 @@ export default function ImageCropper() {
     ctx.fillRect(0, 0, 100, 100);
     dataURLs[24] = canvas.toDataURL();
     // save the dataURLs to the session storage
-    sessionStorage.setItem("imageGrid", JSON.stringify(dataURLs));
-
     // redirect to /app page with dataURLs
     console.log("wtf");
     setImages(dataURLs);

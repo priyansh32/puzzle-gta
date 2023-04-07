@@ -1,4 +1,6 @@
+"use client";
 import Grid from "@/components/PuzzleGrid";
+import { useEffect, useRef } from "react";
 let images = [
   "1_f7sadu.png",
   "2_nburbx.png",
@@ -27,17 +29,22 @@ let images = [
   "25_dqqw9k.png",
 ];
 export default function Home() {
-  // check if sessionStorage has imageGrid
+  // check if localStorage has imageGrid
   // if not, set it to images
-  // if it does, set it to sessionStorage imageGrid
-  if (!sessionStorage.getItem("imageGrid")) {
-    sessionStorage.setItem("imageGrid", JSON.stringify(images));
-  } else {
-    images = JSON.parse(sessionStorage.getItem("imageGrid"));
-  }
+  // if it does, set it to localStorage imageGrid
+  let imageGrid = useRef([]);
+  useEffect(() => {
+    if (localStorage.getItem("imageGrid")) {
+      console.log(localStorage.getItem("imageGrid"));
+      imageGrid.current = JSON.parse(localStorage.getItem("imageGrid"));
+    } else {
+      imageGrid.current = images;
+      localStorage.setItem("imageGrid", JSON.stringify(imageGrid));
+    }
+  }, []);
   return (
     <>
-      <Grid images={images} />
+      <Grid images={imageGrid.current} />
     </>
   );
 }

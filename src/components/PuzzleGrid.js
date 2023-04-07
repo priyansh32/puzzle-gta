@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Grid = ({ images }) => {
-  const [ImageGrid, setImages] = useState([]);
+  const [ImageGrid, setImages] = useState(images);
   const [ImageOrder, setImageOrder] = useState(Array.from(Array(25).keys()));
   const [CorrectOrder, setCorrectOrder] = useState([]);
   const [empty, setEmpty] = useState(24);
