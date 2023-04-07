@@ -1,5 +1,5 @@
-import Grid from "@/components/Puzzle";
-const images = [
+import Grid from "@/components/PuzzleGrid";
+let images = [
   "1_f7sadu.png",
   "2_nburbx.png",
   "3_sgnv8g.png",
@@ -27,6 +27,14 @@ const images = [
   "25_dqqw9k.png",
 ];
 export default function Home() {
+  // check if sessionStorage has imageGrid
+  // if not, set it to images
+  // if it does, set it to sessionStorage imageGrid
+  if (!sessionStorage.getItem("imageGrid")) {
+    sessionStorage.setItem("imageGrid", JSON.stringify(images));
+  } else {
+    images = JSON.parse(sessionStorage.getItem("imageGrid"));
+  }
   return (
     <>
       <Grid images={images} />

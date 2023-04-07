@@ -10,6 +10,9 @@ import JSZip from "jszip";
 import saveAs from "file-saver";
 import Compress from "compress.js";
 
+import { redirect } from "next/navigation";
+import Grid from "./PuzzleGrid";
+
 function getCroppedImg(imageSrc, pixelCrop) {
   const image = document.createElement("img");
   image.src = imageSrc;
@@ -40,6 +43,7 @@ export default function ImageCropper() {
   const [image, setImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [Images, setImages] = useState([]);
   const [aspectRatio, setAspectRatio] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [open, setOpen] = useState(false);
@@ -98,49 +102,42 @@ export default function ImageCropper() {
         dataURLs.push(canvas.toDataURL());
       }
     }
+
+    // replace last element with an empty white image
+    const canvas = document.createElement("canvas");
+    canvas.width = 100;
+    canvas.height = 100;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 100, 100);
+    dataURLs[24] = canvas.toDataURL();
+    // save the dataURLs to the session storage
+    sessionStorage.setItem("imageGrid", JSON.stringify(dataURLs));
+
+    // redirect to /app page with dataURLs
+    console.log("wtf");
+    setImages(dataURLs);
+    setOpen(false);
+    // redirect("./app");
     // zip the images and download
-    const zip = new JSZip();
-    dataURLs.forEach((dataURL, i) => {
-      zip.file(`image${i}.png`, dataURL.split(",")[1], { base64: true });
-    });
-    zip
-      .generateAsync({ type: "blob" })
-      .then((content) => {
-        saveAs(content, "images.zip");
-      })
-      .then(() => {
-        setOpen(false);
-      });
-    setImage(null);
+    // const zip = new JSZip();
+    // dataURLs.forEach((dataURL, i) => {
+    //   zip.file(`image${i}.png`, dataURL.split(",")[1], { base64: true });
+    // });
+    // zip
+    //   .generateAsync({ type: "blob" })
+    //   .then((content) => {
+    //     saveAs(content, "images.zip");
+    //   })
+    //   .then(() => {
+    //     setOpen(false);
+    //   });
+    // setImage(null);
   };
 
   return (
     <>
       <input type='file' onChange={handleFileChange} />
-      {image && (
-        <div className='flex flex-col w-11/12'>
-          <Cropper
-            image={image}
-            crop={crop}
-            zoom={zoom}
-            aspect={1}
-            onCropChange={setCrop}
-            onZoomChange={setZoom}
-            onCropComplete={onCropComplete}
-            // add classes to awt height and width of the cropper
-            classes={{
-              containerClassName:
-                "w-full max-w-screen-sm max-h-screen-sm h-96 relative",
-              mediaClassName: "w-11/12 h-11/12",
-              cropAreaClassName: "h-96 w-96",
-            }}
-          />
-
-          <button className='relative z-100 w-' onClick={handleDownload}>
-            Download
-          </button>
-        </div>
-      )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as='div'
@@ -207,6 +204,7 @@ export default function ImageCropper() {
           </div>
         </Dialog>
       </Transition.Root>
+      {Images.length > 0 && <Grid images={Images} />}
     </>
   );
 }

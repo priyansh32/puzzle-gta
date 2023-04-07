@@ -24,6 +24,7 @@ const Grid = ({ images }) => {
 
     setCorrectOrder(arr);
     setImages(key_image);
+    setEmpty(24);
     console.log(key_image);
     console.log(arr);
   }, [images]);
@@ -76,16 +77,7 @@ const Grid = ({ images }) => {
               image ? "" : "bg-gray-400"
             } flex items-center justify-center cursor-pointer`}
           >
-            {image ? (
-              <Image
-                src={`https://res.cloudinary.com/dvqyo2zki/image/upload/v1634050037/puzzles/${image}`}
-                alt=''
-                width={100}
-                height={100}
-              />
-            ) : (
-              ""
-            )}
+            {image ? <Image src={image} alt='' width={100} height={100} /> : ""}
           </div>
         ))}
       </div>
