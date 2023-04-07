@@ -1,16 +1,13 @@
 "use client";
-import Image from "next/image";
 
-import { Fragment, useEffect, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 
 import Cropper from "react-easy-crop";
 // import JSZip from "jszip";
 // import saveAs from "file-saver";
 import Compress from "compress.js";
 
-// import { redirect } from "next/navigation";
 import Grid from "./PuzzleGrid";
 
 function getCroppedImg(imageSrc, pixelCrop) {
@@ -77,7 +74,7 @@ export default function ImageCropper() {
     setOpen(true);
   };
 
-  const handleDownload = () => {
+  const createPuzzle = () => {
     if (croppedAreaPixels === null) {
       alert("Please select an area to crop");
       return;
@@ -136,77 +133,67 @@ export default function ImageCropper() {
     //   });
     // setImage(null);
   };
+  const hiddenFileInput = useRef(null);
 
   return (
-    <>
-      <input type='file' onChange={handleFileChange} />
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as='div'
-          className='fixed z-10 inset-0 overflow-y-auto'
-          onClose={setOpen}
-        >
-          <div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
-            <Transition.Child
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0'
-              enterTo='opacity-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100'
-              leaveTo='opacity-0'
-            >
-              <Dialog.Overlay className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className='hidden sm:inline-block sm:align-middle sm:h-screen'
-              aria-hidden='true'
-            >
-              &#8203;
+    <div className='h-full w-full flex flex-col items-center justify-center'>
+      {!image && (
+        <>
+          <input
+            type='file'
+            onChange={handleFileChange}
+            ref={hiddenFileInput}
+            className='hidden'
+          />
+          <button
+            type='button'
+            onClick={(e) => {
+              e.preventDefault();
+              // prgramatically click the hidden file input
+              hiddenFileInput.current.click();
+            }}
+            className='relative block p-12 text-center'
+          >
+            <ArrowUpTrayIcon className='mx-auto h-12 w-12 text-gray-400' />
+            <span className='mt-2 block text-sm font-medium text-gray-900'>
+              Upload Image
             </span>
-            <Transition.Child
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-              enterTo='opacity-100 translate-y-0 sm:scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 translate-y-0 sm:scale-100'
-              leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-            >
-              <div className='relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-screen-lg sm:w-full sm:p-6'>
-                <Cropper
-                  image={image}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={1}
-                  onCropChange={setCrop}
-                  onZoomChange={setZoom}
-                  onCropComplete={onCropComplete}
-                  // add classes to awt height and width of the cropper
-                  classes={{
-                    containerClassName:
-                      "w-full max-w-screen-sm max-h-screen-sm h-96 relative mx-auto bg-green-100",
-                    mediaClassName: "w-11/12 h-11/12",
-                    cropAreaClassName: "h-96 w-96",
-                  }}
-                />
-                <div className='mt-5 sm:mt-6'>
-                  <button
-                    type='button'
-                    className='inline-flex justify-center w-full max-w-xs rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm'
-                    onClick={() => handleDownload()}
-                  >
-                    Download
-                  </button>
-                </div>
-              </div>
-            </Transition.Child>
+          </button>
+        </>
+      )}
+      {open && (
+        <>
+          <div className='relative h-96 w-full'>
+            <Cropper
+              image={image}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+              // add classes to awt height and width of the cropper
+              classes={{
+                containerClassName:
+                  "w-full max-w-screen-sm max-h-screen-sm h-96 relative mx-auto bg-green-100",
+                // mediaClassName: "w-11/12",
+                cropAreaClassName: "h-96 w-96",
+              }}
+            />
           </div>
-        </Dialog>
-      </Transition.Root>
+          <div className='mt-5 sm:mt-6'>
+            <button
+              type='button'
+              className='inline-flex justify-center w-full max-w-xs rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm'
+              onClick={() => createPuzzle()}
+            >
+              Create Puzzle
+            </button>
+          </div>
+        </>
+      )}
+
       {Images.length > 0 && <Grid images={Images} />}
-    </>
+    </div>
   );
 }
