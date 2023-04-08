@@ -11,13 +11,16 @@
   "dependencies": {
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.17",
+    "@next-auth/firebase-adapter": "^2.0.1",
     "@tailwindcss/typography": "^0.5.9",
     "compress.js": "^1.2.2",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "file-saver": "^2.0.5",
+    "firebase-admin": "^11.6.0",
     "jszip": "^3.10.1",
     "next": "13.2.4",
+    "next-auth": "^4.21.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-easy-crop": "^4.7.4"
