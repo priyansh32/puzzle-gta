@@ -6,9 +6,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Grid = ({ images }) => {
-  const [ImageGrid, setImages] = useState(images);
+  // check if images is null
+
+  const [ImageGrid, setImages] = useState([images.current]);
   const [ImageOrder, setImageOrder] = useState(Array.from(Array(25).keys()));
-  const [CorrectOrder, setCorrectOrder] = useState([]);
+  const [CorrectOrder, setCorrectOrder] = useState([
+    Array.from(Array(25).keys()),
+  ]);
   const [empty, setEmpty] = useState(24);
 
   const [isSolved, setIsSolved] = useState(false);

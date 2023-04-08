@@ -41,7 +41,6 @@ export default function ImageCropper() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [Images, setImages] = useState([]);
-  const [aspectRatio, setAspectRatio] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [open, setOpen] = useState(false);
 

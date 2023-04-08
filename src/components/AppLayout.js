@@ -1,32 +1,14 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  HomeIcon,
-  Bars3Icon,
-  CalendarIcon,
-  PuzzlePieceIcon,
-  PlusCircleIcon,
-  InformationCircleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 
-const navigation = [
-  { name: "Dashboard", href: "/app/dashboard", icon: HomeIcon },
-  { name: "Daily Puzzle", href: "/app/daily-puzzle", icon: CalendarIcon },
-  {
-    name: "Puzzles Library",
-    href: "/app/puzzle-library",
-    icon: PuzzlePieceIcon,
-  },
-  { name: "Create Puzzle", href: "/app/create-puzzle", icon: PlusCircleIcon },
-  { name: "About", href: "/about", icon: InformationCircleIcon },
-];
+import navigation from "@/components/navigation";
 
 const user = {
   name: "Emily Selman",
