@@ -37,6 +37,7 @@ export default function Home() {
     if (localStorage.getItem("imageGrid")) {
       console.log(localStorage.getItem("imageGrid"));
       imageGrid.current = JSON.parse(localStorage.getItem("imageGrid"));
+      // console.log(imageGrid.current);
     } else {
       imageGrid.current = images;
       localStorage.setItem("imageGrid", JSON.stringify(imageGrid));

@@ -31,33 +31,65 @@ export default function About() {
             puzzles, the possibilities are endless. So gather your friends and
             family, and get ready to get Puzzled!
           </p>
+          <h2>How to Play</h2>
+          <p>
+            Puzzled is a{" "}
+            <a href='https://en.wikipedia.org/wiki/Sliding_puzzle'>
+              sliding puzzle
+            </a>{" "}
+            game. The goal is to arrange the tiles in order by making sliding
+            moves that use the empty space. The tiles can be slid horizontally
+            or vertically into the empty space. The puzzle is solved when the
+            tiles are in order and the empty space is in the bottom right
+            corner.
+          </p>
+          {/* Need help? check out this youtube video */}
+          <p>
+            <strong>Need help?</strong> Check out this{" "}
+            <a href='https://www.youtube.com/watch?v=4WYQ8gJXQjw'>
+              tutorial video.
+            </a>
+          </p>
+          <h2>Features</h2>
+          <p>
+            Puzzled is a fully featured app that allows you to create and solve
+            puzzles. Here are some of the features I{"'"}m most proud of:
+          </p>
+          <ul>
+            <li>
+              <strong>Customizable Puzzle Size</strong> - You can choose from
+              3x3, 4x4, 5x5, and 6x6 puzzles.
+            </li>
+            <li>
+              <strong>Customizable Puzzle Images</strong> - You can choose from
+              a variety of pre-made images or upload your own.{" "}
+              <i>Click a selfie and make a puzzle of yourself!</i>
+            </li>
+            {/* one on one match */}
+            <li>
+              <strong>One on One Match</strong> - You can play with your friends
+              and family in a one on one match.
+            </li>
+            {/* Daily Puzzle- Daily Leaderboard Refresh */}
+            <li>
+              <strong>Daily Puzzle</strong> - You can play a new puzzle every
+              day and compete with other players on the daily leaderboard.
+            </li>
+          </ul>
+
           <CTA />
           <p>
             We{"'"}re always looking for ways to improve and expand our app, so
             if you have any feedback or suggestions, please don{"'"}t hesitate
             to reach out. Happy puzzling!
           </p>
-          <Divider />
           <p>
             You can reach me at{" "}
             <a href='mailto:patidarpriyansh936@gmail.com'>
               patidarpriyansh936@gmail.com
-            </a>
-            {/* twitter */}
-            <ul>
-              <li>
-                <a href='https://twitter.com/priyanshpatidar'>Twitter</a>
-              </li>
-              <li>
-                <a href='https://www.linkedin.com/in/priyansh-patidar-0b1b1b1b9/'>
-                  LinkedIn
-                </a>
-              </li>
-              {/* github */}
-              <li>
-                <a href='https://github.com/priyansh32'>Github</a>
-              </li>
-            </ul>
+            </a>{" "}
+            or connect with me on twitter{" "}
+            <a href='https://twitter.com/priyanshh32'>@priyanshh32</a>
           </p>
           <Divider />
           <Footer />
