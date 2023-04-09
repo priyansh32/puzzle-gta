@@ -8,7 +8,12 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>{user.email}</p>
+      {user && (
+        <div>
+          <h2>Welcome {user.name}</h2>
+          <p>Here is your dashboard</p>
+        </div>
+      )}
     </div>
   );
 }
