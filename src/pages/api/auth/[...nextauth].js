@@ -12,6 +12,15 @@ export const authOptions = {
   ],
   adapter: FirestoreAdapter(firestore),
   secret: process.env.NEXTAUTH_SECRET,
+  // return id along with user session
+  callbacks: {
+    session: async ({ session, user }) => {
+      if (session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);

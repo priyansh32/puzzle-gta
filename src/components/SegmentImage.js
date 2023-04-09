@@ -1,8 +1,9 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
+import { storage } from "@/lib/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { useRef, useState } from "react";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
-
+import { randomName } from "@/utils/random-name";
 import Cropper from "react-easy-crop";
 
 import Grid from "./PuzzleGrid";
@@ -10,6 +11,7 @@ import Grid from "./PuzzleGrid";
 
 import getCroppedImg from "@/utils/get-cropped-img";
 import partitionImage from "@/utils/partitionImage";
+import { useRouter } from "next/navigation";
 
 export default function ImageCropper() {
   const [image, setImage] = useState(null);
@@ -18,12 +20,7 @@ export default function ImageCropper() {
   const [Images, setImages] = useState([]);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (Images.length > 0) {
-      localStorage.setItem("imageGrid", JSON.stringify(Images));
-    }
-  }, [Images]);
+  const router = useRouter();
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -45,8 +42,36 @@ export default function ImageCropper() {
     const croppedImage = getCroppedImg(image, croppedAreaPixels);
 
     let dataURLs = partitionImage(croppedImage);
+    const directory = randomName(12);
+    const promises = dataURLs.map(async (image) => {
+      const name = randomName(10);
+      const path = `puzzles/${directory}/${name}`;
+      const imageRef = ref(storage, path);
+      await uploadString(imageRef, image, "data_url");
+      return name;
+    });
 
-    setImages(dataURLs);
+    Promise.all(promises).then((names) => {
+      console.log(names);
+      // make a post request to the api to save the puzzle
+      fetch("/api/puzzle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "test",
+          directory: `puzzles/${directory}`,
+          images: names,
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          router.push(`/play/${data.id}`);
+        });
+    });
     setOpen(false);
   };
   const hiddenFileInput = useRef(null);
