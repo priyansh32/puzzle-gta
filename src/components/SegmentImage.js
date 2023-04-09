@@ -4,36 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 
 import Cropper from "react-easy-crop";
-import Compress from "compress.js";
 
 import Grid from "./PuzzleGrid";
 // import downloadImagesZipped from "@/utils/download-images-zipped";
 
-function getCroppedImg(imageSrc, pixelCrop) {
-  const image = document.createElement("img");
-  image.src = imageSrc;
-
-  const canvas = document.createElement("canvas");
-
-  canvas.width = pixelCrop.width;
-  canvas.height = pixelCrop.height;
-
-  const ctx = canvas.getContext("2d");
-
-  ctx.drawImage(
-    image,
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height,
-    0,
-    0,
-    pixelCrop.width,
-    pixelCrop.height
-  );
-
-  return canvas;
-}
+import getCroppedImg from "@/utils/get-cropped-img";
+import partitionImage from "@/utils/partitionImage";
 
 export default function ImageCropper() {
   const [image, setImage] = useState(null);
@@ -55,22 +31,8 @@ export default function ImageCropper() {
 
   const handleFileChange = async (e) => {
     const [file] = e.target.files;
-    console.log(URL.createObjectURL(new Blob([file])));
-    const cmp = new Compress();
-    const resizedFile = await cmp.compress([file], {
-      size: 1, // the max size in MB, defaults to 2MB
-      quality: 0.75, // the quality of the image, max is 1,
-      maxWidth: 1080, // the max width of the output image, defaults to 1920px
-      maxHeight: 1080, // the max height of the output image, defaults to 1920px
-      resize: true, // defaults to true, set false if you do not want to resize the image width and height
-    });
 
-    const compressedFile = resizedFile[0];
-    const base64str = compressedFile.data;
-    const imgExt = compressedFile.ext;
-    const newFile = Compress.convertBase64ToFile(base64str, imgExt);
-
-    setImage(URL.createObjectURL(new Blob([newFile])));
+    setImage(URL.createObjectURL(new Blob([file])));
     setOpen(true);
   };
 
@@ -82,39 +44,8 @@ export default function ImageCropper() {
 
     const croppedImage = getCroppedImg(image, croppedAreaPixels);
 
-    let dataURLs = [];
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 5; j++) {
-        const canvas = document.createElement("canvas");
-        canvas.width = 100;
-        canvas.height = 100;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(
-          croppedImage,
-          j * (croppedImage.width / 5),
-          i * (croppedImage.height / 5),
-          croppedImage.width / 5,
-          croppedImage.height / 5,
-          0,
-          0,
-          100,
-          100
-        );
-        dataURLs.push(canvas.toDataURL());
-      }
-    }
+    let dataURLs = partitionImage(croppedImage);
 
-    // replace last element with an empty white image
-    const canvas = document.createElement("canvas");
-    canvas.width = 100;
-    canvas.height = 100;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, 100, 100);
-    dataURLs[24] = canvas.toDataURL();
-    // save the dataURLs to the session storage
-    // redirect to /app page with dataURLs
-    console.log("wtf");
     setImages(dataURLs);
     setOpen(false);
   };
@@ -134,7 +65,6 @@ export default function ImageCropper() {
             type='button'
             onClick={(e) => {
               e.preventDefault();
-              // prgramatically click the hidden file input
               hiddenFileInput.current.click();
             }}
             className='relative block p-12 text-center'
