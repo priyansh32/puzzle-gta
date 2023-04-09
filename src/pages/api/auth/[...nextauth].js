@@ -3,7 +3,7 @@ import { FirestoreAdapter } from "@next-auth/firebase-adapter";
 import NextAuth from "next-auth/next";
 import GoogleProvier from "next-auth/providers/google";
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvier({
       clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
@@ -11,4 +11,7 @@ export default NextAuth({
     }),
   ],
   adapter: FirestoreAdapter(firestore),
-});
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+export default NextAuth(authOptions);

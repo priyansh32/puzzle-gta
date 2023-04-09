@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 
 import Cropper from "react-easy-crop";
-// import JSZip from "jszip";
-// import saveAs from "file-saver";
 import Compress from "compress.js";
 
 import Grid from "./PuzzleGrid";
+// import downloadImagesZipped from "@/utils/download-images-zipped";
 
 function getCroppedImg(imageSrc, pixelCrop) {
   const image = document.createElement("img");
@@ -45,7 +44,9 @@ export default function ImageCropper() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("imageGrid", JSON.stringify(Images));
+    if (Images.length > 0) {
+      localStorage.setItem("imageGrid", JSON.stringify(Images));
+    }
   }, [Images]);
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
@@ -116,21 +117,6 @@ export default function ImageCropper() {
     console.log("wtf");
     setImages(dataURLs);
     setOpen(false);
-    // redirect("./app");
-    // zip the images and download
-    // const zip = new JSZip();
-    // dataURLs.forEach((dataURL, i) => {
-    //   zip.file(`image${i}.png`, dataURL.split(",")[1], { base64: true });
-    // });
-    // zip
-    //   .generateAsync({ type: "blob" })
-    //   .then((content) => {
-    //     saveAs(content, "images.zip");
-    //   })
-    //   .then(() => {
-    //     setOpen(false);
-    //   });
-    // setImage(null);
   };
   const hiddenFileInput = useRef(null);
 

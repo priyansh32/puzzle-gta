@@ -1,3 +1,4 @@
+"use client";
 import "./globals.css";
 
 const user = {
@@ -8,6 +9,8 @@ const user = {
 };
 
 export default function RootLayout({ children }) {
+  // get serversession
+
   return (
     <html className='h-full bg-white'>
       <body className='h-full'>{children}</body>

@@ -1,4 +1,5 @@
 import {
+  ChartBarIcon,
   HomeIcon,
   CalendarIcon,
   PuzzlePieceIcon,
@@ -7,14 +8,15 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "/app/dashboard", icon: HomeIcon },
+  { name: "Dashboard", href: "/app/dashboard", icon: ChartBarIcon },
   { name: "Daily Puzzle", href: "/app/daily-puzzle", icon: CalendarIcon },
   {
     name: "Puzzles Library",
     href: "/app/puzzle-library",
     icon: PuzzlePieceIcon,
   },
-  { name: "Create Puzzle", href: "/app/create-puzzle", icon: PlusCircleIcon },
+  { name: "Create Your Own", href: "/app/create-puzzle", icon: PlusCircleIcon },
+  { name: "Home", href: "/home", icon: HomeIcon },
   { name: "About", href: "/about", icon: InformationCircleIcon },
 ];
 
