@@ -14,8 +14,8 @@ export default function Home() {
     }
   }, []);
   return (
-    <>
+    <div className='min-h-content h-full w-full flex flex-col items-center'>
       <Grid images={imageGrid} />
-    </>
+    </div>
   );
 }
