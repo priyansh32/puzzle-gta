@@ -1,3 +1,4 @@
+// no use right now, saved for future reference
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
