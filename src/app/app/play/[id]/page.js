@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getDownloadURL, ref } from "firebase/storage";
 export default function Page({ params }) {
   const { id } = params;
-  const [imageGrid, setImageGrid] = useState([]);
+  const [imageGrid, setImageGrid] = useState(null);
   useEffect(() => {
     // pass id as query param
     fetch(`/api/puzzle?id=${id}`)
@@ -26,7 +26,7 @@ export default function Page({ params }) {
 
   return (
     <div className='min-h-content h-full w-full flex flex-col items-center'>
-      <Grid images={imageGrid} />
+      {imageGrid && <Grid images={imageGrid} />}
     </div>
   );
 }
