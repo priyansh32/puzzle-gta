@@ -140,7 +140,7 @@ function CTA() {
   );
 }
 
-function BackgroundLayer() {
+export function BackgroundLayer() {
   return (
     <div className='hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full'>
       <div

@@ -36,11 +36,13 @@ async function POST(req, res) {
     };
 
     console.log(data);
-    const result = await newPuzzleRef.set(data).then(async () => {
-      return newPuzzleRef.get().then((doc) => doc.data());
+    const newPuzzle = await newPuzzleRef.set(data).then(async () => {
+      return newPuzzleRef.get().then((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
     });
 
-    return res.json({ result });
+    return res.json({ puzzle: newPuzzle });
   } else {
     return res.redirect(403, `${process.env.URL}/api/auth/signin`);
   }
