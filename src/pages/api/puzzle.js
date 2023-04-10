@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import { firestore } from "@/lib/firestore";
 
 export default async function handler(req, res) {
-  // call different function based on request method
   switch (req.method) {
     case "GET":
       return await GET(req, res);
@@ -15,16 +14,11 @@ export default async function handler(req, res) {
   }
 }
 
-// write a POST route that accepts a JSON body
 async function POST(req, res) {
   const session = await getServerSession(req, res, authOptions);
   if (session) {
-    // req.body is a readable stream
-    // convert it to a JSON object
-
     const { title, images, directory } = req.body;
 
-    // create a new puzzle document in firestore
     const newPuzzleRef = firestore.collection("puzzles").doc();
 
     const data = {
@@ -42,19 +36,17 @@ async function POST(req, res) {
       });
     });
 
-    return res.json({ puzzle: newPuzzle });
+    return res.json({ status: "success", puzzle: newPuzzle });
   } else {
     return res.redirect(403, `${process.env.URL}/api/auth/signin`);
   }
 }
 
 async function GET(req, res) {
-  // fetch puzzle with id from firestore
   const id = req.query.id;
-  console.log(id);
   const puzzleRef = firestore.collection("puzzles").doc(id);
   const puzzle = await puzzleRef.get().then((doc) => doc.data());
-  return res.json({ puzzle });
+  return res.json({ status: "success", puzzle });
 }
 
 export const config = {

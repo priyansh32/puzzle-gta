@@ -29,7 +29,6 @@ export default function ImageCropper() {
     setLoaded(true);
   };
 
-  // run whne loaded is true
   useEffect(() => {
     if (loaded) console.log("loaded");
   }, [loaded]);
@@ -53,8 +52,6 @@ export default function ImageCropper() {
     });
 
     Promise.all(promises).then((names) => {
-      console.log(names);
-      // make a post request to the api to save the puzzle
       fetch("/api/puzzle", {
         method: "POST",
         headers: {
@@ -75,8 +72,7 @@ export default function ImageCropper() {
     });
   };
 
-  const cancel = () => {
-    // clear the image
+  const cancelPuzzleCreation = () => {
     image.current = null;
     setLoaded(false);
   };
@@ -185,7 +181,6 @@ export default function ImageCropper() {
                     onCropChange={setCrop}
                     onZoomChange={setZoom}
                     onCropComplete={onCropComplete}
-                    // add classes to awt height and width of the cropper
                     classes={{
                       containerClassName:
                         "w-full max-w-screen-sm max-h-screen-sm h-128 bg-green-100",
@@ -203,7 +198,7 @@ export default function ImageCropper() {
             <button
               type='button'
               className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-              onClick={cancel}
+              onClick={cancelPuzzleCreation}
             >
               Cancel
             </button>

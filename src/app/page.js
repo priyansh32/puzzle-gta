@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  // if authenticated, redirect to dashboard
   if (session) {
     return redirect("/app");
   } else {

@@ -26,14 +26,10 @@ export default async function handler(req, res) {
         return userRef.get().then((doc) => doc.data());
       });
 
-    // get all puzzles where userId === session.user.id
     const puzzles = await firestore
       .collection("puzzles")
       .where("userId", "==", session.user.id)
-      // get only id and title
       .select("title")
-
-      // .orderBy("createdAt", "desc")
       .get()
       .then((querySnapshot) => {
         const puzzles = [];
@@ -44,7 +40,6 @@ export default async function handler(req, res) {
       });
 
     return res.json({ id: session.user.id, ...updatedUser, puzzles });
-    // return NextResponse.json({ user });
   } else {
     return res.redirect(403, `${process.env.URL}/api/auth/signin`);
   }

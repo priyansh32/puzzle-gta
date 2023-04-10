@@ -6,7 +6,6 @@ export default function arrayShuffle(arr) {
     let one = Math.floor(Math.random() * (len - 1));
     let two = Math.floor(Math.random() * (len - 1));
     if (one !== two) {
-      //inverting the background images(ES6 syntax)
       [arr[one], arr[two]] = [arr[two], arr[one]];
     } else i--;
   }
