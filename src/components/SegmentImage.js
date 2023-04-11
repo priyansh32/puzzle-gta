@@ -24,14 +24,9 @@ export default function ImageCropper() {
 
   const handleFileChange = async (e) => {
     const [file] = e.target.files;
-
     image.current = URL.createObjectURL(new Blob([file]));
     setLoaded(true);
   };
-
-  useEffect(() => {
-    if (loaded) console.log("loaded");
-  }, [loaded]);
 
   const createPuzzle = () => {
     if (croppedAreaPixels === null) {
@@ -115,7 +110,7 @@ export default function ImageCropper() {
                   />
                 </div>
               </div>
-              <div className='sm:col-span-6'>
+              <div className='col-span-6'>
                 <label
                   htmlFor='puzzle-photo'
                   className='block text-sm font-medium text-gray-700'
@@ -124,7 +119,7 @@ export default function ImageCropper() {
                 </label>
               </div>
               {!loaded ? (
-                <div className='sm:col-span-6'>
+                <div className='col-span-6'>
                   <div className='mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md'>
                     <div
                       className='space-y-1 text-center cursor-pointer'

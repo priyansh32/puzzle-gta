@@ -7,13 +7,11 @@ export default function Page({ params }) {
   const { id } = params;
   const [imageGrid, setImageGrid] = useState(null);
   useEffect(() => {
-    // pass id as query param
     fetch(`/api/puzzle?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         const directory = data.puzzle.directory;
-        // get download url for paths in data.res.images
         const promises = data.puzzle.images.map(async (name) => {
           const Imageref = getDownloadURL(ref(storage, `${directory}/${name}`));
           return Imageref;
