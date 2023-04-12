@@ -24,7 +24,8 @@
     "next-auth": "^4.21.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-easy-crop": "^4.7.4"
+    "react-easy-crop": "^4.7.4",
+    "sharp": "^0.32.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
