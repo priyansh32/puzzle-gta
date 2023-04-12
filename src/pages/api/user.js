@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { firestore } from "@/lib/firestore";
+import { firestore } from "@/lib/firebase-server";
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);

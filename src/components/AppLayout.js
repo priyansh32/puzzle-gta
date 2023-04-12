@@ -102,6 +102,9 @@ const AppLayout = ({ children }) => {
                         <Link
                           key={item.name}
                           href={item.href}
+                          onClick={() => {
+                            setSidebarOpen(false);
+                          }}
                           className={classNames(
                             item.href === pathname
                               ? "bg-purple-100 text-gray-900"

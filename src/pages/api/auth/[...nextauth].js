@@ -1,4 +1,4 @@
-import { firestore } from "@/lib/firestore";
+import { firestore } from "@/lib/firebase-server";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter";
 import NextAuth from "next-auth/next";
 import GoogleProvier from "next-auth/providers/google";
