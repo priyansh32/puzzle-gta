@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 
 export default function LoginButton() {
   let callbackUrl = usePathname();
-  console.log(callbackUrl);
   if (callbackUrl === "/home") {
     callbackUrl = "/app";
   }

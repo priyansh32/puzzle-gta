@@ -124,7 +124,6 @@ export default function ImageCropper() {
                     <div
                       className='space-y-1 text-center cursor-pointer'
                       onClick={() => {
-                        console.log("clicked");
                         fileInput.current.click();
                       }}
                     >

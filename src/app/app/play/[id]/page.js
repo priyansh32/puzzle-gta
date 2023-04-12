@@ -10,7 +10,6 @@ export default function Page({ params }) {
     fetch(`/api/puzzle?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const directory = data.puzzle.directory;
         const promises = data.puzzle.images.map(async (name) => {
           const Imageref = getDownloadURL(ref(storage, `${directory}/${name}`));

@@ -9,7 +9,6 @@ const UserContextProvider = ({ children }) => {
     fetch("/api/user")
       .then((res) => res.json())
       .then((data) => {
-        console.log("user", data);
         setUser(data);
       });
   }, []);
