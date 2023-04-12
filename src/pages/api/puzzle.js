@@ -38,7 +38,7 @@ async function POST(req, res) {
 
     return res.json({ status: "success", puzzle: newPuzzle });
   } else {
-    return res.redirect(403, `${process.env.URL}/api/auth/signin`);
+    return res.json({ status: "error", message: "Not logged in" });
   }
 }
 
