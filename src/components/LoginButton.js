@@ -13,7 +13,7 @@ export default function LoginButton() {
       onClick={() => {
         signIn("google", { callbackUrl: callbackUrl });
       }}
-      className='inline-flex shadow items-center justify-center px-5 py-3 border border-transparent text-base bg-white text-black font-medium rounded-md'
+      className='inline-flex shadow items-center justify-center px-5 py-3 border border-transparent text-sm sm:text-base bg-white text-black font-medium rounded-md'
     >
       <div className='mr-2'>
         <Image

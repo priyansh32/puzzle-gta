@@ -43,7 +43,7 @@ export default function Page() {
                   <Link
                     href='/app/play/qaZXNUtIwYoEWht9XDY4'
                     _target='blank'
-                    className='inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'
+                    className='inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'
                   >
                     Try it now
                   </Link>
