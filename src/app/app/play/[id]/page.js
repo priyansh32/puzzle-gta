@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { getDownloadURL, ref } from "firebase/storage";
 export default function Page({ params }) {
   const { id } = params;
-  const [imageGrid, setImageGrid] = useState(null);
+  const [imageGrid, setImageGrid] = useState(Array(25).fill("/loading.gif"));
   useEffect(() => {
     fetch(`/api/puzzle?id=${id}`)
       .then((res) => res.json())
