@@ -41,7 +41,7 @@ export default function Page({ params }) {
 
   return (
     <>
-      <div className='min-h-content h-full w-full flex flex-col items-center'>
+      <div className='min-h-content h-full w-full flex flex-col items-center justify-center'>
         {imageGrid && <Grid images={imageGrid} />}
         <button
           className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'

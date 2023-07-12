@@ -41,7 +41,7 @@ export default function Page() {
               <div className='mt-8 flex'>
                 <div className='inline-flex rounded-md shadow'>
                   <Link
-                    href='/app/play/qaZXNUtIwYoEWht9XDY4'
+                    href='/trynow'
                     _target='blank'
                     className='inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'
                   >
