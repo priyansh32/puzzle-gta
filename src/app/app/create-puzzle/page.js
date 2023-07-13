@@ -39,7 +39,9 @@ export default function Page() {
 
     const croppedImage = getCroppedImg(image.current, croppedAreaPixels);
 
-    let dataURLs = partitionImage(croppedImage);
+    // last image is the full image
+    const dataURLs = partitionImage(croppedImage);
+
     const directory = randomName(12);
     const promises = dataURLs.map(async (imagedataurl) => {
       const name = randomName(10);
@@ -58,7 +60,8 @@ export default function Page() {
         body: JSON.stringify({
           title: titleRef.current.value,
           directory: `puzzles/${directory}`,
-          images: names,
+          images: names.slice(0, -1),
+          original: names[names.length - 1],
         }),
       })
         .then((res) => {

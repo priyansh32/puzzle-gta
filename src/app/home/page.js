@@ -1,8 +1,12 @@
 import LoginButton from "@/components/LoginButton";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className='bg-purple-50 flex items-center justify-center min-h-full'>
       <div className='overflow-hidden sm:pt-12 lg:pt-0 lg:relative'>
@@ -49,7 +53,17 @@ export default function Page() {
                   </Link>
                 </div>
                 <div className='ml-3 inline-flex'>
-                  <LoginButton />
+                  {session ? (
+                    <Link
+                      href='/app/dashboard'
+                      _target='blank'
+                      className='inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 '
+                    >
+                      Go to Dashboard
+                    </Link>
+                  ) : (
+                    <LoginButton />
+                  )}
                 </div>
               </div>
             </div>

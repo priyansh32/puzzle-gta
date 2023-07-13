@@ -1,3 +1,6 @@
+import LoginButton from "@/components/LoginButton";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 export default function About() {
@@ -109,34 +112,32 @@ function Divider() {
   );
 }
 
-function CTA() {
+async function CTA() {
+  const session = await getServerSession(authOptions);
   return (
-    <div className='bg-white'>
-      <div className='w-full mx-auto text-center py-12 px-4 sm:px-6 lg:py-8 lg:px-4'>
-        <h2 className='text-3xl my-auto font-extrabold tracking-tight text-gray-900 sm:text-4xl'>
-          <span className='block'>Ready to dive in?</span>
-          <span className='block'>Start puzzling today.</span>
-        </h2>
+    <>
+      {session ? (
         <div className='mt-8 flex justify-center'>
-          <div className='inline-flex rounded-md shadow'>
-            <Link
-              href='#'
-              className='inline-flex items-center justify-center no-underline px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'
-            >
-              Sign In
-            </Link>
-          </div>
-          <div className='ml-3 inline-flex'>
-            <Link
-              href='#'
-              className='inline-flex items-center justify-center no-underline px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200'
-            >
-              Start Solving
-            </Link>
-          </div>
+          <Link
+            href='/trynow'
+            _target='blank'
+            className='inline-flex items-center no-underline justify-center px-5 py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 m-1'
+          >
+            Try it now
+          </Link>
+
+          <Link
+            href='/app/dashboard'
+            _target='blank'
+            className='inline-flex items-center no-underline justify-center px-5 py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 m-1'
+          >
+            Go to Dashboard
+          </Link>
         </div>
-      </div>
-    </div>
+      ) : (
+        <LoginButton />
+      )}
+    </>
   );
 }
 

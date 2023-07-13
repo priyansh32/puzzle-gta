@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     const puzzles = await firestore
       .collection("puzzles")
       .where("userId", "==", session.user.id)
-      .select("title")
+      .select("title", "directory", "original")
       .get()
       .then((querySnapshot) => {
         const puzzles = [];

@@ -1,25 +1,32 @@
 "use client";
-import { storage } from "@/lib/firebase-client";
+
 import Grid from "@/components/PuzzleGrid";
 import { useEffect, useRef, useState } from "react";
-import { getDownloadURL, ref } from "firebase/storage";
 import PuzzleContext from "@/context/PuzzleContext";
+import Timer from "@/components/Timer";
+import Image from "next/image";
+import getDownloadURLs from "@/utils/getDownloadURLs";
+
 export default function Page({ params }) {
   const { id } = params;
   const [imageGrid, setImageGrid] = useState(Array(25).fill("/tail-spin.svg"));
+  const OriginalImage = useRef(null);
 
   useEffect(() => {
     fetch(`/api/puzzle?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
-        const directory = data.puzzle.directory;
-        const promises = data.puzzle.images.map(async (name) => {
-          const Imageref = getDownloadURL(ref(storage, `${directory}/${name}`));
-          return Imageref;
-        });
-        Promise.all(promises).then((urls) => {
+
+        getDownloadURLs(data.puzzle.directory, data.puzzle.images).then((urls) => {
           setImageGrid(urls);
+        }).catch((error) => {
+          console.log(error);
         });
+
+        getDownloadURLs(data.puzzle.directory, [data.puzzle.original]).then((urls) => {
+          OriginalImage.current = urls[0];
+        });
+          
       });
   }, [id]);
 
@@ -35,8 +42,8 @@ export default function Page({ params }) {
       timerStart.current = Date.now() / 1000;
       intervalRef.current = setInterval(() => {
         const newTime = Date.now() / 1000 - timerStart.current;
-        setTime(newTime.toFixed(2));
-      }, 10);
+        setTime(Math.floor(newTime));
+      }, 500);
     } else if (!isTimerOn) {
       clearInterval(intervalRef.current);
     }
@@ -60,12 +67,17 @@ export default function Page({ params }) {
       }}
     >
       <div className='min-h-content h-full w-full flex flex-col items-center justify-center'>
+        {OriginalImage.current && (
+          <Image
+            src={OriginalImage.current}
+            alt='Original'
+            className='w-40 h-40 m-4'
+            width={400}
+            height={400}
+          />
+        )}
+        <Timer time={time} className='mb-4' />
         {imageGrid && <Grid images={imageGrid} />}
-        <div className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-          <span>Time: {time}</span>
-        </div>
-
-        <div></div>
       </div>
     </PuzzleContext.Provider>
   );

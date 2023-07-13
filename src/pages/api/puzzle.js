@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 async function POST(req, res) {
   const session = await getServerSession(req, res, authOptions);
   if (session) {
-    const { title, images, directory } = req.body;
+    const { title, images, directory, original } = req.body;
 
     const newPuzzleRef = firestore.collection("puzzles").doc();
 
@@ -25,6 +25,7 @@ async function POST(req, res) {
       title,
       images,
       directory,
+      original,
       userId: session.user.id,
       createdAt: new Date(),
     };

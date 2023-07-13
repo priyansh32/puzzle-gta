@@ -1,3 +1,14 @@
+function resizeImage(image, width, height) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(image, 0, 0, width, height);
+
+  return canvas;
+}
+
 export default function partitionImage(croppedImage) {
   let dataURLs = [];
 
@@ -22,16 +33,19 @@ export default function partitionImage(croppedImage) {
       dataURLs.push(canvas.toDataURL());
     }
   }
-  // add an empty white image to the end of dataURLs
-  // exhange it to last second image
-  // do we need this? anywas does no harm
+
+  // replacing last image with empty image
   const canvas = document.createElement("canvas");
   canvas.width = 100;
   canvas.height = 100;
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, 100, 100);
-  dataURLs.push(canvas.toDataURL());
-  [dataURLs[25], dataURLs[24]] = [dataURLs[24], dataURLs[25]];
+  dataURLs.splice(-1, 1, canvas.toDataURL());
+
+  // append original image to dataURLs
+  const resizedOriginal = resizeImage(croppedImage, 160, 160);
+  dataURLs.push(resizedOriginal.toDataURL());
+
   return dataURLs;
 }

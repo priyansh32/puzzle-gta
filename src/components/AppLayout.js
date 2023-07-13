@@ -292,7 +292,7 @@ const AppLayout = ({ children }) => {
           <div className='flex-1 relative z-0 flex overflow-auto'>
             <main className='flex-1 relative z-0 overflow-y-auto focus:outline-none'>
               {/* Start main area*/}
-              <div className='min-h-full h-full py-6 px-4 sm:px-6 lg:px-8'>
+              <div className='min-h-full py-6 px-4 sm:px-6 lg:px-8'>
                 {children}
               </div>
               {/* End main area */}
