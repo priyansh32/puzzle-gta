@@ -16,7 +16,7 @@ export default function Dashboard() {
             {user.puzzles.map((puzzle, i) => {
               return (
                 <li key={i} className='underline block text-blue-600'>
-                  <Link href={`app/play/${puzzle.id}`}>{puzzle.title}</Link>
+                  <Link href={`/app/play/${puzzle.id}`}>{puzzle.title}</Link>
                 </li>
               );
             })}

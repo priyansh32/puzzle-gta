@@ -3,32 +3,43 @@
 import arrayShuffle from "@/utils/shuffle-array";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+
+import PuzzleContext from "@/context/PuzzleContext";
 
 function getCoordinates(i, width) {
   return [i % width, Math.floor(i / width)];
 }
 
-const Grid = (props) => {
-  const ImageLinks = props.images;
+const Grid = ({ images }) => {
+  const ImageLinks = images;
+  const { timerState, timeState, isSolvedState } = useContext(PuzzleContext);
+
+  const { isTimerOn, setTimerOn } = timerState;
+  const { time, setTime } = timeState;
+  const { isSolved, setIsSolved } = isSolvedState;
 
   const CorrectOrder = useRef([]);
 
   const [imageOrder, setimageOrder] = useState([]);
 
   const [empty, setEmpty] = useState(24);
-  const [isSolved, setIsSolved] = useState(false);
 
   useEffect(() => {
-    reshuffle();
+    reset();
   }, []);
 
-  const reshuffle = () => {
+  const reset = () => {
     setimageOrder(arrayShuffle(Array.from(Array(25).keys())));
     CorrectOrder.current = Array.from(Array(25).keys());
     setEmpty(24);
-    setIsSolved(false);
   };
+
+  useEffect(() => {
+    if (isSolved) {
+      setTimerOn(false);
+    }
+  }, [isSolved, setTimerOn]);
 
   useEffect(() => {
     // check if the puzzle is solved
@@ -38,7 +49,7 @@ const Grid = (props) => {
     } else {
       setIsSolved(false); // just in case it was solved before
     }
-  }, [imageOrder]);
+  }, [imageOrder, setIsSolved]);
 
   const handleClick = (i) => {
     // get x, y of clicked image and empty image
@@ -47,6 +58,10 @@ const Grid = (props) => {
 
     // check if clicked image is next to empty image
     if (Math.abs(X - emptyX) + Math.abs(Y - emptyY) === 1) {
+      if (!isTimerOn) {
+        setTimerOn(true);
+      }
+
       const newImageOrder = [...imageOrder];
       [newImageOrder[i], newImageOrder[empty]] = [
         newImageOrder[empty],
@@ -78,11 +93,20 @@ const Grid = (props) => {
       </div>
       {isSolved && (
         <>
-          <p>You solved the puzzle!</p>
-          <button onClick={() => reshuffle()}>Play Again</button>
+          <p>You solved the puzzle in </p>
+          <button onClick={() => reset()}>Play Again</button>
         </>
       )}
-      <button onClick={() => reshuffle()}>Reshuffle</button>
+      <button
+        onClick={() => {
+          reset();
+          setIsSolved(false);
+          setTimerOn(false);
+          setTime(0);
+        }}
+      >
+        reset
+      </button>
     </>
   );
 };
