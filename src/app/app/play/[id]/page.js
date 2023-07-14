@@ -16,17 +16,19 @@ export default function Page({ params }) {
     fetch(`/api/puzzle?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
+        getDownloadURLs(data.puzzle.directory, data.puzzle.images)
+          .then((urls) => {
+            setImageGrid(urls);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-        getDownloadURLs(data.puzzle.directory, data.puzzle.images).then((urls) => {
-          setImageGrid(urls);
-        }).catch((error) => {
-          console.log(error);
-        });
-
-        getDownloadURLs(data.puzzle.directory, [data.puzzle.original]).then((urls) => {
-          OriginalImage.current = urls[0];
-        });
-          
+        getDownloadURLs(data.puzzle.directory, [data.puzzle.original]).then(
+          (urls) => {
+            OriginalImage.current = urls[0];
+          }
+        );
       });
   }, [id]);
 
@@ -66,18 +68,34 @@ export default function Page({ params }) {
         },
       }}
     >
-      <div className='min-h-content h-full w-full flex flex-col items-center justify-center'>
-        {OriginalImage.current && (
-          <Image
-            src={OriginalImage.current}
-            alt='Original'
-            className='w-40 h-40 m-4'
-            width={400}
-            height={400}
-          />
-        )}
-        <Timer time={time} className='mb-4' />
-        {imageGrid && <Grid images={imageGrid} />}
+      <div className='flex-1 flex items-stretch overflow-hidden flex-col lg:flex-row'>
+        <main className='flex-1 overflow-y-auto'>
+          {/* <!-- Primary column --> */}
+          <section
+            aria-labelledby='primary-heading'
+            className='min-w-0 flex-1 h-full flex flex-col lg:order-last'
+          >
+            <h1 id='primary-heading' className='sr-only'>
+              Puzzle
+            </h1>
+            <div className='min-h-content h-full w-full flex flex-col items-center justify-center'>
+              {imageGrid && <Grid images={imageGrid} />}
+            </div>
+          </section>
+        </main>
+
+        <aside className='w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block'>
+          {OriginalImage.current && (
+            <Image
+              src={OriginalImage.current}
+              alt='Original'
+              className='w-40 h-40 m-4'
+              width={400}
+              height={400}
+            />
+          )}
+          <Timer time={time} className='mb-4' />
+        </aside>
       </div>
     </PuzzleContext.Provider>
   );

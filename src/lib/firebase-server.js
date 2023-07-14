@@ -1,6 +1,7 @@
 import firebaseAdmin from "firebase-admin";
 import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import { getStorage } from "firebase-admin/storage";
 
 const app = (() => {
   if (firebaseAdmin.apps.length) {
@@ -17,3 +18,4 @@ const app = (() => {
 })();
 
 export const firestore = getFirestore(app);
+export const storage = getStorage(app);
